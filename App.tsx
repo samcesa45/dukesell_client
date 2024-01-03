@@ -1,20 +1,51 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import FontAwesome from '@expo/vector-icons/FontAwesome'
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
+import Ionicons from '@expo/vector-icons/Ionicons'
+import {
+  DarkTheme,
+  DefaultTheme,
+  ThemeProvider
+} from '@react-navigation/native'
+import { useFonts } from 'expo-font'
+import { useColorScheme, Text } from 'react-native'
+import {
+  PlayfairDisplay_400Regular,
+  PlayfairDisplay_700Bold,
+  PlayfairDisplay_900Black
+} from '@expo-google-fonts/playfair-display'
+import {
+  WorkSans_400Regular,
+  WorkSans_500Medium,
+  WorkSans_700Bold
+} from '@expo-google-fonts/work-sans'
+import NavigationLayout from './src/navigation/ParentRoute'
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+const App = () => {
+  const [loaded] = useFonts({
+    PlayfairDisplay_400Regular,
+    PlayfairDisplay_900Black,
+    PlayfairDisplay_700Bold,
+    WorkSans_400Regular,
+    WorkSans_500Medium,
+    WorkSans_700Bold,
+    ...FontAwesome.font,
+    ...MaterialCommunityIcons.font,
+    ...Ionicons.font
+  })
+
+  if (!loaded) {
+    return <Text>Loading...</Text>
+  }
+  return <RootLayoutNav />
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App
+const RootLayoutNav = () => {
+  const colorScheme = useColorScheme()
+
+  return (
+    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+      <NavigationLayout />
+    </ThemeProvider>
+  )
+}
