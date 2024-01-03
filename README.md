@@ -22,4 +22,6 @@ git clone [https://github.com/samcesa45/dukesell_client.git](https://github.com/
 cd into the project directory 
 npm install to install all project dependencies
 
+npx expo start -c to run the application locally
+
 
