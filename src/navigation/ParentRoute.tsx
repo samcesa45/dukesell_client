@@ -24,7 +24,7 @@ const NavigationLayout = () => {
         />
         <Stack.Screen
           options={({ route, navigation }) => ({
-            title: `Details: ${route?.params?.productId}`,
+            title: `Details: ${route?.params?.prodName}`,
             headerShown: true,
             headerRight: () => (
               <Pressable

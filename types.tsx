@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/indent */
 import { type NavigationProp, type RouteProp } from '@react-navigation/native'
 
 export interface IProduct {
@@ -12,6 +13,7 @@ export interface RootStackParamList {
   HomeIndex: undefined
   ProductDetails: {
     productId: string
+    prodName: string
   }
 }
 

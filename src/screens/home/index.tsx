@@ -29,7 +29,10 @@ const HomeIndex = ({ navigation }: Props) => {
     return (
       <Pressable
         onPress={() => {
-          navigation.navigate('ProductDetails', { productId: id })
+          navigation.navigate('ProductDetails', {
+            productId: id,
+            prodName: name
+          })
         }}
         style={styles.card}
       >

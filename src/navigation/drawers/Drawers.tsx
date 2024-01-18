@@ -1,7 +1,4 @@
-import {
-  createDrawerNavigator,
-  DrawerNavigationProp
-} from '@react-navigation/drawer'
+import { createDrawerNavigator } from '@react-navigation/drawer'
 import { useNavigation } from '@react-navigation/native'
 import {
   // Platform,
@@ -14,7 +11,7 @@ import {
 import CustomDrawerContent from '../../common/CustomDrawerContent'
 import BottomNavBar from '../tabs/BottomNavBar'
 import HamburgerSvg from '../../svgs/HamburgerSvg'
-import ProductDetails from '../../screens/products/ProductDetails'
+// import ProductDetails from '../../screens/products/ProductDetails'
 
 const Drawer = createDrawerNavigator()
 
