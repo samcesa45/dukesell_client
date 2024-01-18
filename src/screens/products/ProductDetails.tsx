@@ -1,3 +1,4 @@
+import { useQuery } from '@apollo/client'
 import React from 'react'
 import { View, Text, StyleSheet, Image, Pressable } from 'react-native'
 import {
@@ -5,6 +6,8 @@ import {
   type ProductDetailsRouteProp
 } from '../../../types'
 import Container from '../../components/container'
+import Loader from '../../components/loader/Loader'
+import { GET_PRODUCT_BY_ID } from '../../services/graphql/product-queries'
 interface ProductDetailsProps {
   route: ProductDetailsRouteProp
   navigation: ProductDetailsNavigationProp
@@ -13,17 +16,25 @@ interface ProductDetailsProps {
 const ProductDetails = ({ route, navigation }: ProductDetailsProps) => {
   const { productId } = route.params
   console.log(productId)
+  const { data, loading, error } = useQuery(GET_PRODUCT_BY_ID, {
+    variables: { prodId: parseFloat(productId) }
+  })
+
+  if (loading) return <Loader />
+  if (error != null) return <Text>Error: {error.message}</Text>
+
+  const product = data.getProduct
   return (
     <Container isScrollable>
       <View style={styles.innerContainer}>
         <View style={styles.productWrapper}>
           <View style={styles.imgContainer}>
-            <Image source={require('../../../assets/images/art.png')} />
+            <Image source={{ uri: product.imageUrl }} style={styles.cardImg} />
           </View>
           <View style={styles.descContainer}>
-            <Text style={styles.title}>Artsy</Text>
-            <Text style={styles.subtitle}>Wallet with chain</Text>
-            <Text style={styles.price}>$ 256</Text>
+            <Text style={styles.title}>{product.name}</Text>
+            <Text style={styles.subtitle}>{product.description}</Text>
+            <Text style={styles.price}>$ {product.price}</Text>
             <Pressable
               onPress={() => {
                 console.log('buy')
@@ -48,14 +59,19 @@ export default ProductDetails
 const styles = StyleSheet.create({
   innerContainer: {
     paddingTop: 39,
-    paddingHorizontal: 12
+    marginHorizontal: 12
   },
   productWrapper: {
-    flexDirection: 'row'
+    flexDirection: 'row',
+    marginRight: 12
   },
   imgContainer: {
     width: 170,
     height: 155
+  },
+  cardImg: {
+    width: 151,
+    height: 171
   },
   title: {
     color: '#000',

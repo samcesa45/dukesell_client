@@ -5,7 +5,7 @@ export interface IProduct {
   name: string
   description: string
   price: string
-  image_url: string
+  imageUrl: string
 }
 
 export interface RootStackParamList {

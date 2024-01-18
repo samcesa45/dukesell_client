@@ -23,28 +23,14 @@ import NavigationLayout from './src/navigation/ParentRoute'
 import {
   ApolloClient,
   InMemoryCache,
-  gql,
   ApolloProvider
 } from '@apollo/client'
 
 const client = new ApolloClient({
-  uri: 'https://a4aa-105-112-120-41.ngrok-free.app/graphql',
+  uri: 'https://c52b-105-112-122-107.ngrok-free.app/graphql',
   cache: new InMemoryCache()
 })
 
-const query = gql`
-  query {
-    getAllProducts {
-      name
-      description
-      imageUrl
-    }
-  }
-`
-
-void client.query({ query }).then((response) => {
-  console.log(response.data)
-})
 const App = () => {
   const [loaded] = useFonts({
     PlayfairDisplay_400Regular,

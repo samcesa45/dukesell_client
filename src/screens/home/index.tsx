@@ -1,3 +1,4 @@
+import { useQuery } from '@apollo/client'
 import { type NativeStackScreenProps } from '@react-navigation/native-stack'
 import React from 'react'
 import {
@@ -8,14 +9,23 @@ import {
   // FlatList,
   Pressable
 } from 'react-native'
+
 import { type RootStackParamList, type IProduct } from '../../../types'
 import Container from '../../components/container'
-import { productsData } from '../../utils/productsData'
+import Loader from '../../components/loader/Loader'
+import { GET_ALL_PRODUCTS } from '../../services/graphql/product-queries'
 
 type Props = NativeStackScreenProps<RootStackParamList, 'HomeIndex'>
 const HomeIndex = ({ navigation }: Props) => {
   // eslint-disable-next-line @typescript-eslint/naming-convention
-  const RenderProductItem = ({ name, image_url, id }: IProduct) => {
+  const { loading, data, error } = useQuery(GET_ALL_PRODUCTS)
+  console.log(data?.getAllProducts)
+
+  if (loading) {
+    return <Loader />
+  }
+  if (error != null) return `Error! ${error.message}`
+  const RenderProductItem = ({ name, imageUrl, id }: IProduct) => {
     return (
       <Pressable
         onPress={() => {
@@ -24,7 +34,7 @@ const HomeIndex = ({ navigation }: Props) => {
         style={styles.card}
       >
         <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-          <Image source={image_url} style={styles.cardImg} />
+          <Image source={{ uri: imageUrl }} style={styles.cardImg} />
           <Text style={styles.cardTitle}>{name}</Text>
           <Text style={styles.cardLink}>Shop Now</Text>
           <View style={{ width: 88, height: 2, backgroundColor: '#000' }} />
@@ -40,16 +50,13 @@ const HomeIndex = ({ navigation }: Props) => {
           style={styles.img}
         />
         <View style={styles.cardWrapper}>
-          {productsData.map((product) => (
-            <RenderProductItem {...product} key={product.id} />
-          ))}
+          {data?.getAllProducts.map(
+            (product: React.JSX.IntrinsicAttributes & IProduct) => (
+              <RenderProductItem {...product} key={product.id} />
+            )
+          )}
         </View>
       </View>
-      {/* <FlatList
-        data={productsData}
-        renderItem={RenderProductItem}
-        keyExtractor={(item) => item.name}
-      /> */}
     </Container>
   )
 }
